@@ -1,0 +1,97 @@
+{% extends "base.html.twig" %}
+{% block central %}
+	<!-- page start-->
+	<div class="col-sm-12">
+		<section class="panel">
+			<div class="chat-room-head">
+				<h3>
+					<i class="fa fa-angle-right"></i>
+					Gérer les marques</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr class="tableau-entete">
+							<th>
+								<i class="fa fa-bullhorn"></i>
+								Identifiant</th>
+							<th>
+								<i class="fa fa-bookmark"></i>
+								Nom</th>
+							<th>
+								<i class="fa fa-bookmark"></i>
+								Nombre jeux</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{{ include('messages.html.twig') }}
+						<!-- formulaire pour ajouter un nouveau marque-->
+						<tr>
+							<form action="{{path('marques_ajouter')}}" method="post">
+								<td>Nouveau</td>
+								<td>
+									<input type="text" id="txtNomMarque" name="txtNomMarque" size="24" required minlength="4" maxlength="24" placeholder="Nom" title="De 4 à 24 caractères"/>
+								</td>
+								<td></td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="ajouterNouveauMarque" title="Enregistrer nouveau Marque">
+										<i class="fa fasave"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+								</td>
+							</form>
+						</tr>
+						{% for key, marque in tbMarques %}
+							<tr>
+								<!-- formuaire pour demander la modification et supprimer les marques-->
+								<form methd="post">
+									<td>{{marque.identifiant }}<input type="hidden" name="txtIdMarque" value="{{ marque.identifiant }}"/></td>
+									<td>
+										{%if marque.identifiant != idMarqueModif %}
+										{{ marque.Marque }}</td>
+									</td>
+									<td>
+										{{marque.nbJeux}}
+									</td>
+									<td>
+										{% if notification != 'rien' and marque.identifiant == idMarqueNotif %}
+											<button class="btn btn-success btn-xs">
+												<i class="fa facheck"></i>
+												{{ notification }}</button>
+										{% endif %}
+										<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="demanderModifierMarque" title="Modifier" formaction="{{path('marques_demandermodifier')}}">
+											<i class="fa fa-pencil"></i>
+										</button>
+										<button class="btn btn-danger btn-xs" type="submit" name="cmdAction" value="supprimerMarque" title="Supprimer" formaction="{{path('marques_supprimer')}}" onclick="return confirm('Voulez-vous vraiment supprimer ce marque ?');">
+											<i class="fa fa-trash-o "></i>
+										</button>
+									</td>
+								{% else %}
+									<input type="text" id="txtNomMarque" name="txtNomMarque" size="24" required minlength="4" maxlength="24" value="{{ marque.Marque }}"/>
+								</td>
+								<td>
+									{{ marque.nbJeux }}
+								</td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="validerModifierMarque" title="Enregistrer" formaction="{{path('marques_validermodifier')}}">
+										<i class="fa fa-save"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+									<button class="btn btn-warning btn-xs" type="submit" name="cmdAction" value="annulerModifierMarque" title="Annuler" formaction="{{path('marques_afficher')}}">
+										<i class="fa fa-undo"></i>
+									</button>
+								</td>
+							{% endif %}
+						</form>
+					</tbody>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<!-- fin div panel-body--></section><!-- fin section marques--></div><!--fin div col-sm-8-->{% endblock %}

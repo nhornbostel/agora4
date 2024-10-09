@@ -1,0 +1,137 @@
+{% extends "base.html.twig" %}
+{% block central %}
+	<!-- page start-->
+	<div class="col-sm-12">
+		<section class="panel">
+			<div class="chat-room-head">
+				<h3>
+					<i class="fa fa-angle-right"></i>
+					Gérer les jeux</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr class="tableau-entete">
+							<th>
+								<i class="fa fa-bullhorn"></i>
+								Identifiant</th>
+							<th>
+								<i class="fa fa-bookmark"></i>
+								Libellé</th>
+							<th>Nombre jeux</th>
+							<th>Genre</th>
+							<th>Plateforme</th>
+							<th>Marque</th>
+							<th>Pegi</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{{ include('messages.html.twig') }}
+						<!-- formulaire pour ajouter un nouveau jeu-->
+						<tr>
+							<form action="{{path('jeux_ajouter')}}" method="post">
+								<td>Nouveau</td>
+								<td>
+									<input type="text" id="txtnomJeu" name="txtnomJeu" size="24" required minlength="4" maxlength="24" placeholder="Libellé" title="De 4 à 24 caractères"/>
+								</td>
+								<td>
+									0
+								</td>
+								<td>
+									<select name="genre" id="genre" method="post">
+										{% for key, jeu_video in tbJeux %}
+											<option value="{{ jeu_video.Genre }}">{{ jeu_video.Genre }}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									<select name="genre" id="genre" method="post">
+										{% for key, jeu_video in tbJeux %}
+											<option value="{{ jeu_video.Plateforme }}">{{ jeu_video.Plateforme }}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									<select name="genre" id="genre" method="post">
+										{% for key, jeu_video in tbJeux %}
+											<option value="{{ jeu_video.Marque }}">{{ jeu_video.Marque }}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									<select name="genre" id="genre" method="post">
+										{% for key, jeu_video in tbJeux %}
+											<option value="{{ jeu_video.Pegi }}">{{ jeu_video.Pegi }}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="ajouterNouveauJeu" title="Enregistrer nouveau jeu">
+										<i class="fa fasave"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+								</td>
+							</form>
+						</tr>
+						{% for key, jeu_video in tbJeux %}
+							<tr>
+								<!-- formuaire pour demander la modification et supprimer les jeux-->
+								<form methd="post">
+									<td>{{jeu_video.identifiant }}<input type="hidden" name="txtrefJeu" value="{{ jeu_video.identifiant }}"/></td>
+									<td>
+										{%if jeu_video.identifiant != refJeuModif %}
+										{{ jeu_video.libelle }}</td>
+									</td>
+									<td>
+										{{jeu_video.nbJeux}}
+									</td>
+									<td>{{jeu_video.Genre}}</td>
+									<td>{{jeu_video.Plateforme}}</td>
+									<td>{{jeu_video.Marque}}</td>
+									<td>{{jeu_video.Pegi}}</td>
+									<td>
+										{% if notification != 'rien' and jeu_video.identifiant == refJeuNotif %}
+											<button class="btn btn-success btn-xs">
+												<i class="fa facheck"></i>
+												{{ notification }}</button>
+										{% endif %}
+										<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="demanderModifierJeu" title="Modifier" formaction="{{path('jeux_demandermodifier')}}">
+											<i class="fa fa-pencil"></i>
+										</button>
+										<button class="btn btn-danger btn-xs" type="submit" name="cmdAction" value="supprimerJeu" title="Supprimer" formaction="{{path('jeux_supprimer')}}" onclick="return confirm('Voulez-vous vraiment supprimer ce jeu ?');">
+											<i class="fa fa-trash-o "></i>
+										</button>
+									</td>
+								{% else %}
+									<input type="text" id="txtnomJeu" name="txtnomJeu" size="24" required minlength="4" maxlength="24" value="{{ jeu_video.libelle }}"/>
+								</td>
+								<td>
+									{% set tbObjets, name, size, idSelect = tbMembres, 'lstMembre', 1, jeu_video.idSpecialiste %}
+									{{ include('liste.html.twig') }}
+								</td>
+								<td>
+									{{ jeu_video.nbJeux }}
+								</td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="validerModifierJeu" title="Enregistrer" formaction="{{path('jeux_validermodifier')}}">
+										<i class="fa fa-save"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+									<button class="btn btn-warning btn-xs" type="submit" name="cmdAction" value="annulerModifierJeu" title="Annuler" formaction="{{path('jeux_afficher')}}">
+										<i class="fa fa-undo"></i>
+									</button>
+								</td>
+							{% endif %}
+						</form>
+					</tbody>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<!-- fin div panel-body--></section><!-- fin section jeux--></div><!--fin div col-sm-8-->{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html.twig" %}
+{% block central %}
+	<!-- page start-->
+	<div class="col-sm-12">
+		<section class="panel">
+			<div class="chat-room-head">
+				<h3>
+					<i class="fa fa-angle-right"></i>
+					Gérer les genres</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-advance table-hover">
+					<thead>
+						<tr class="tableau-entete">
+							<th>
+								<i class="fa fa-bullhorn"></i>
+								Identifiant</th>
+							<th>
+								<i class="fa fa-bookmark"></i>
+								Libellé</th>
+							<th>
+								<i class="fa fa-bookmark"></i>
+								Nombre jeux</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{{ include('messages.html.twig') }}
+						<!-- formulaire pour ajouter un nouveau genre-->
+						<tr>
+							<form action="{{path('genres_ajouter')}}" method="post">
+								<td>Nouveau</td>
+								<td>
+									<input type="text" id="txtLibGenre" name="txtLibGenre" size="24" required minlength="4" maxlength="24" placeholder="Libellé" title="De 4 à 24 caractères"/>
+								</td>
+								<td>
+									0
+								</td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="ajouterNouveauGenre" title="Enregistrer nouveau genre">
+										<i class="fa fasave"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+								</td>
+							</form>
+						</tr>
+						{% for key, genre in tbGenres %}
+							<tr>
+								<!-- formuaire pour demander la modification et supprimer les genres-->
+								<form methd="post">
+									<td>{{genre.identifiant }}<input type="hidden" name="txtIdGenre" value="{{genre.identifiant}}"/></td>
+									<td>
+										{%if genre.identifiant != idGenreModif %}
+										{{ genre.libelle }}</td>
+									</td>
+									<td>
+										{{genre.nbJeux}}
+									</td>
+									<td>
+										{% if notification != 'rien' and genre.identifiant == idGenreNotif %}
+											<button class="btn btn-success btn-xs">
+												<i class="fa facheck"></i>
+												{{ notification }}</button>
+										{% endif %}
+										<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="demanderModifierGenre" title="Modifier" formaction="{{path('genres_demandermodifier')}}">
+											<i class="fa fa-pencil"></i>
+										</button>
+										<button class="btn btn-danger btn-xs" type="submit" name="cmdAction" value="supprimerGenre" title="Supprimer" formaction="{{path('genres_supprimer')}}" onclick="return confirm('Voulez-vous vraiment supprimer ce genre ?');">
+											<i class="fa fa-trash-o "></i>
+										</button>
+									</td>
+								{% else %}
+									<input type="text" id="txtLibGenre" name="txtLibGenre" size="24" required minlength="4" maxlength="24" value="{{ genre.libelle }}"/>
+								</td>
+								<td>
+									{{ genre.nbJeux }}
+								</td>
+								<td>
+									<button class="btn btn-primary btn-xs" type="submit" name="cmdAction" value="validerModifierGenre" title="Enregistrer" formaction="{{path('genres_validermodifier')}}">
+										<i class="fa fa-save"></i>
+									</button>
+									<button class="btn btn-info btn-xs" type="reset" title="Effacer la saisie">
+										<i class="fa fa-eraser"></i>
+									</button>
+									<button class="btn btn-warning btn-xs" type="submit" name="cmdAction" value="annulerModifierGenre" title="Annuler" formaction="{{path('genres_afficher')}}">
+										<i class="fa fa-undo"></i>
+									</button>
+								</td>
+							{% endif %}
+						</form>
+					</tbody>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<!-- fin div panel-body--></section><!-- fin section genres--></div><!--fin div col-sm-8-->{% endblock %}
