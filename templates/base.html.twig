@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="sio">
+		<meta name="keyword" content="MJC, Agora">
+		<title>AgorA - Administration</title>
+		{% block stylesheets %}
+		<!-- Bootstrap core CSS -->
+		<!--la fonction asset permet de faire le lien avec les ressources -->
+		<link
+		href="{{ asset('assets/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/> <!--external css-->
+		<link href="{{ asset('assets/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet"/>
+		<link
+		href="{{ asset('assets/lib/fullcalendar/bootstrap-fullcalendar.css') }}" rel="stylesheet"/>
+		<!--external css pour les dates dans la gestion des tournois-->
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrapfileupload/bootstrap-fileupload.css') }}"/>
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrapdatepicker/css/datepicker.css') }}"/>
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrapdatepicker/css/datepicker.css')}}"/>
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstraptimepicker/compiled/timepicker.css') }}"/>
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/bootstrapdatetimepicker/css/datetimepicker.css') }}"/>
+		<!-- Custom styles for this template -->
+		<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+		<link
+		href="{{ asset('assets/css/style-responsive.css') }}" rel="stylesheet">
+		<!-- Style pour agora -->
+		<link href="{{ asset('assets/css/styleAgora.css') }}" rel="stylesheet">
+	{% endblock %}
+	<!-- =======================================================
+		Template Name: Dashio
+		Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+		Author: TemplateMag.com
+		License: https://templatemag.com/license/
+		======================================================= -->
+</head>
+<body>
+	<section id="container">
+		<!--
+		**************************************************************************************
+		********************************************************************
+			TOP BAR CONTENT & NOTIFICATIONS
+		
+		**************************************************************************************
+		********************************************************************* -->
+		<!--header start-->
+			<header class="header black-bg"> <div class="sidebar-toggle-box">
+				<div class="fa fa-bars tooltips" data-placement="right" data-originaltitle="Toggle Navigation"></div>
+			</div>
+			<!--logo start-->
+			<a href="index.php" class="logo">
+				<b>Ago<span>rA</span>
+				</b>
+			</a>
+			<!--logo end-->
+			<ul class="nav pull-right top-menu">
+				{# app.session.has() nouvelle syntaxe pour tester si une variable de
+									session existe #}
+				{# app.session.get() nouvelle syntaxe pour récupérer la valeur d'une
+									variable de session #}
+					{% if (app.session.has('idUtilisateur') ) %}
+						<a href="" class="userAgo"> {{ app.session.get('prenomUtilisateur') }}
+						{{
+							app.session.get('nomUtilisateur') }}</a>
+					<li>
+						<a class="logout" href="{{ path('deconnexion') }}">Se déconnecter</a>
+					</li>
+				{% else %}
+					<li>
+						<a class="logout" href="{{ path('accueil') }}">Se connecter</a>
+					</li>
+				{% endif %}
+			</ul>
+		</header>
+		<!--header end-->
+		<!--
+		**************************************************************************************
+		********************************************************************
+			MAIN SIDEBAR MENU
+		
+		**************************************************************************************
+		********************************************************************* -->
+		{% block menu %}
+			{% if (app.session.has('idUtilisateur') ) %}
+				{{ include('menu.html.twig') }}
+			{% endif %}
+		{% endblock %}
+		<!--
+		**************************************************************************************
+		********************************************************************
+			MAIN CONTENT
+		
+		**************************************************************************************
+		********************************************************************* -->
+		<section id="main-content">
+			<section class="wrapper"> {% block central %}{% endblock %}
+				</section>
+			</section>
+			<!-- /MAIN CONTENT -->
+			<!--main content end-->
+			<!--footer start-->
+				<footer class="site-footer"> <div class="text-center">
+					<p>Crée par Logma avec le template bootstrap Dashio :
+														&copy; Copyrights
+						<strong>Dashio</strong>. All Rights Reserved
+					</p>
+					<div
+						class="credits">
+						<!--
+						You are NOT allowed to delete the credit link to TemplateMag with free version.
+						You can delete the credit link only if you bought the pro version.
+						Buy the pro version with working PHP/AJAX contact form:
+						https://templatemag.com/dashio-bootstrap-admin-template/
+						Licensing information: https://templatemag.com/license/
+						-->
+						Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+					</div>
+					<a href="index.html#" class="go-top">
+						<i class="fa fa-angle-up"></i>
+					</a>
+				</div>
+			</footer>
+			<!--footer end-->
+		</section>
+		<!-- js placed at the end of the document so the pages load faster -->
+		<script src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
+		<!-- pour dérouler menu -->
+		<script src="{{ asset('assets/lib/bootstrap/js/bootstrap.min.js') }}"></script>
+		<script class="include" type="text/javascript" src="{{ asset('assets/lib/jquery.dcjqaccordion.2.7.js') }}"></script>
+		<!-- pour dérouler menu-->
+		<script src="{{ asset('assets/lib/jquery.scrollTo.min.js') }}"></script>
+		<!-- pourdérouler menu -->
+		<!--common script for all pages-->
+		<script src="{{ asset('assets/lib/common-scripts.js') }}"></script>
+		<!--script pour le calendrier-->
+		<script src="{{ asset('assets/lib/jquery-ui-1.9.2.custom.min.js') }}"></script>
+		<script src="{{ asset('assets/lib/fullcalendar/fullcalendar.min.js') }}"></script>
+		<script src="{{ asset('assets/lib/calendar-conf-events.js') }}"></script>
+		<!-- pour la connexion -->
+		<script src="{{ asset('assets/libAgora/sha512.js') }}"></script>
+	</body>
+</html>
+
